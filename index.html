@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramienta con Botones de Redirección</title>
+    <title>Herramienta de Gestión - Panel de Control</title>
     <link rel="icon" type="image/x-icon" href="https://img.freepik.com/vector-premium/imagen-vectorial-icono-educacion-puede-utilizar-guarderia_120816-305702.jpg">
     <style>
         * {
@@ -34,10 +34,23 @@
             width: 90%;
         }
         
+        .header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
         h1 {
             color: #2c3e50;
             margin-bottom: 10px;
-            font-size: 28px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 18px;
+            font-weight: 400;
         }
         
         p {
@@ -170,6 +183,12 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .modal-content {
@@ -180,6 +199,12 @@
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .close-btn {
@@ -191,6 +216,7 @@
             color: #7f8c8d;
             background: none;
             border: none;
+            transition: color 0.3s;
         }
         
         .close-btn:hover {
@@ -228,9 +254,11 @@
             word-break: break-all;
             display: inline-block;
             margin-bottom: 5px;
+            transition: color 0.3s;
         }
         
         .download-link:hover {
+            color: #005580;
             text-decoration: underline;
         }
         
@@ -239,11 +267,12 @@
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
             width: 100%;
+            font-weight: bold;
         }
         
         .copy-btn:hover {
@@ -252,6 +281,18 @@
         
         .copy-btn:active {
             transform: translateY(1px);
+        }
+        
+        .copy-btn.copied {
+            background-color: #2ecc71;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 14px;
         }
         
         @media (max-width: 767px) {
@@ -271,12 +312,24 @@
             .icon {
                 font-size: 18px;
             }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Herramienta de Gestión</h1>
+        <div class="header">
+            <h1>Herramienta de Gestión</h1>
+            <p class="subtitle">Panel de Control Centralizado</p>
+        </div>
+        
         <p>Selecciona una de las siguientes opciones para acceder a los recursos correspondientes:</p>
         
         <div class="buttons-container">
@@ -300,7 +353,7 @@
                 DESCARGA DE PANAXTREAMING
             </button>
             
-            <a href="https://vendeygana2.github.io/MENSAJEWHATSAPP/" class="btn whatsapp-btn">
+            <a href="https://vendeygana2.github.io/MENSAJEWHATSAPP/" class="btn whatsapp-btn" target="_blank">
                 <span class="icon">💚</span>
                 BOT DE MENSAJES WHATSAPP
             </a>
@@ -317,7 +370,11 @@
         </div>
         
         <div class="info-box">
-            <p><strong>Nota:</strong> Al hacer clic en cualquiera de los botones, serás redirigido al recurso correspondiente o se mostrará información de descarga.</p>
+            <p><strong>Nota:</strong> Al hacer clic en cualquiera de los botones, serás redirigido al recurso correspondiente o se mostrará información de descarga. Todos los enlaces se abrirán en una nueva pestaña.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Herramienta de Gestión &copy; 2023 - Todos los derechos reservados</p>
         </div>
     </div>
 
@@ -389,17 +446,25 @@ Descarga Downloader
                 .then(() => {
                     // Cambiar texto del botón temporalmente
                     const originalText = copyBtn.textContent;
-                    copyBtn.textContent = '¡COPIADO!';
-                    copyBtn.style.backgroundColor = '#27ae60';
+                    copyBtn.textContent = '¡INFORMACIÓN COPIADA!';
+                    copyBtn.classList.add('copied');
                     
                     setTimeout(() => {
                         copyBtn.textContent = originalText;
+                        copyBtn.classList.remove('copied');
                     }, 2000);
                 })
                 .catch(err => {
                     console.error('Error al copiar: ', err);
                     alert('Error al copiar la información. Intenta manualmente.');
                 });
+        });
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                panaxModal.style.display = 'none';
+            }
         });
     </script>
 </body>

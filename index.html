@@ -123,6 +123,16 @@
             box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
         }
         
+        .canva-btn {
+            background-color: #00C4CC;
+        }
+        
+        .canva-btn:hover {
+            background-color: #00A3A9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 196, 204, 0.4);
+        }
+        
         .whatsapp-btn {
             background-color: #25D366;
         }
@@ -287,6 +297,26 @@
             background-color: #2ecc71;
         }
         
+        .canva-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .canva-logo img {
+            max-width: 120px;
+            height: auto;
+        }
+        
+        .access-data {
+            margin-bottom: 15px;
+        }
+        
+        .access-data p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
         .footer {
             margin-top: 30px;
             padding-top: 20px;
@@ -353,6 +383,11 @@
                 DESCARGA DE PANAXTREAMING
             </button>
             
+            <button class="btn canva-btn" id="canvaBtn">
+                <span class="icon">🎨</span>
+                PANEL CANVA
+            </button>
+            
             <a href="https://vendeygana2.github.io/MENSAJEWHATSAPP/" class="btn whatsapp-btn" target="_blank">
                 <span class="icon">💚</span>
                 BOT DE MENSAJES WHATSAPP
@@ -381,7 +416,7 @@
     <!-- Modal para PanaxTreaming -->
     <div class="modal" id="panaxModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeModal">&times;</button>
+            <button class="close-btn" id="closePanaxModal">&times;</button>
             <h2 class="modal-title">DESCARGA DE PANAXTREAMING</h2>
             
             <div class="download-info">
@@ -403,36 +438,74 @@
                 </div>
             </div>
             
-            <button class="copy-btn" id="copyBtn">COPIAR INFORMACIÓN</button>
+            <button class="copy-btn" id="copyPanaxBtn">COPIAR INFORMACIÓN</button>
+        </div>
+    </div>
+
+    <!-- Modal para Panel Canva -->
+    <div class="modal" id="canvaModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeCanvaModal">&times;</button>
+            
+            <div class="canva-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_icon_2021.svg/2048px-Canva_icon_2021.svg.png" alt="Logo de Canva">
+            </div>
+            
+            <h2 class="modal-title">DATOS DE ACCESO AL PANEL CANVA</h2>
+            
+            <div class="download-info">
+                <div class="access-data">
+                    <p><strong>Correo:</strong> vgpanelcanva@gmail.com</p>
+                    <p><strong>Clave:</strong> Vendeygana*</p>
+                </div>
+            </div>
+            
+            <button class="copy-btn" id="copyCanvaBtn">COPIAR INFORMACIÓN</button>
         </div>
     </div>
 
     <script>
         // Elementos del DOM
         const panaxBtn = document.getElementById('panaxBtn');
+        const canvaBtn = document.getElementById('canvaBtn');
         const panaxModal = document.getElementById('panaxModal');
-        const closeModal = document.getElementById('closeModal');
-        const copyBtn = document.getElementById('copyBtn');
+        const canvaModal = document.getElementById('canvaModal');
+        const closePanaxModal = document.getElementById('closePanaxModal');
+        const closeCanvaModal = document.getElementById('closeCanvaModal');
+        const copyPanaxBtn = document.getElementById('copyPanaxBtn');
+        const copyCanvaBtn = document.getElementById('copyCanvaBtn');
         
         // Abrir modal al hacer clic en el botón Panax
         panaxBtn.addEventListener('click', function() {
             panaxModal.style.display = 'flex';
         });
         
-        // Cerrar modal al hacer clic en la X
-        closeModal.addEventListener('click', function() {
+        // Abrir modal al hacer clic en el botón Canva
+        canvaBtn.addEventListener('click', function() {
+            canvaModal.style.display = 'flex';
+        });
+        
+        // Cerrar modales al hacer clic en la X
+        closePanaxModal.addEventListener('click', function() {
             panaxModal.style.display = 'none';
         });
         
-        // Cerrar modal al hacer clic fuera del contenido
+        closeCanvaModal.addEventListener('click', function() {
+            canvaModal.style.display = 'none';
+        });
+        
+        // Cerrar modales al hacer clic fuera del contenido
         window.addEventListener('click', function(event) {
             if (event.target === panaxModal) {
                 panaxModal.style.display = 'none';
             }
+            if (event.target === canvaModal) {
+                canvaModal.style.display = 'none';
+            }
         });
         
-        // Copiar información al portapapeles
-        copyBtn.addEventListener('click', function() {
+        // Copiar información de Panax al portapapeles
+        copyPanaxBtn.addEventListener('click', function() {
             const infoToCopy = `AK OFICIAL PANAXTREAMING
 NUEVO PANAXTREAMING
 
@@ -445,13 +518,13 @@ Descarga Downloader
             navigator.clipboard.writeText(infoToCopy)
                 .then(() => {
                     // Cambiar texto del botón temporalmente
-                    const originalText = copyBtn.textContent;
-                    copyBtn.textContent = '¡INFORMACIÓN COPIADA!';
-                    copyBtn.classList.add('copied');
+                    const originalText = copyPanaxBtn.textContent;
+                    copyPanaxBtn.textContent = '¡INFORMACIÓN COPIADA!';
+                    copyPanaxBtn.classList.add('copied');
                     
                     setTimeout(() => {
-                        copyBtn.textContent = originalText;
-                        copyBtn.classList.remove('copied');
+                        copyPanaxBtn.textContent = originalText;
+                        copyPanaxBtn.classList.remove('copied');
                     }, 2000);
                 })
                 .catch(err => {
@@ -460,12 +533,39 @@ Descarga Downloader
                 });
         });
         
-        // Cerrar modal con tecla Escape
+        // Copiar información de Canva al portapapeles
+        copyCanvaBtn.addEventListener('click', function() {
+            const infoToCopy = `Datos de acceso al panel Canva:
+
+Correo: vgpanelcanva@gmail.com
+Clave: Vendeygana*`;
+            
+            navigator.clipboard.writeText(infoToCopy)
+                .then(() => {
+                    // Cambiar texto del botón temporalmente
+                    const originalText = copyCanvaBtn.textContent;
+                    copyCanvaBtn.textContent = '¡INFORMACIÓN COPIADA!';
+                    copyCanvaBtn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        copyCanvaBtn.textContent = originalText;
+                        copyCanvaBtn.classList.remove('copied');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Error al copiar: ', err);
+                    alert('Error al copiar la información. Intenta manualmente.');
+                });
+        });
+        
+        // Cerrar modales con tecla Escape
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 panaxModal.style.display = 'none';
+                canvaModal.style.display = 'none';
             }
         });
     </script>
 </body>
 </html>
+

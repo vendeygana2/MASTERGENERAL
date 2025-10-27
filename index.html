@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herramienta de Gestión - Panel de Control</title>
     <link rel="icon" type="image/x-icon" href="https://img.freepik.com/vector-premium/imagen-vectorial-icono-educacion-puede-utilizar-guarderia_120816-305702.jpg">
+    <!-- Incluir la biblioteca html2canvas para captura de pantalla -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -163,6 +165,16 @@
             box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
         
+        .flujotv-btn {
+            background-color: #FF5722;
+        }
+        
+        .flujotv-btn:hover {
+            background-color: #E64A19;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+        }
+        
         .btn:active {
             transform: translateY(1px);
         }
@@ -272,7 +284,7 @@
             text-decoration: underline;
         }
         
-        .copy-btn {
+        .copy-btn, .screenshot-btn {
             background-color: #27ae60;
             color: white;
             border: none;
@@ -283,13 +295,22 @@
             transition: background-color 0.3s;
             width: 100%;
             font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .screenshot-btn {
+            background-color: #3498db;
         }
         
         .copy-btn:hover {
             background-color: #219653;
         }
         
-        .copy-btn:active {
+        .screenshot-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .copy-btn:active, .screenshot-btn:active {
             transform: translateY(1px);
         }
         
@@ -297,13 +318,17 @@
             background-color: #2ecc71;
         }
         
-        .canva-logo {
+        .screenshot-btn.captured {
+            background-color: #2ecc71;
+        }
+        
+        .canva-logo, .flujotv-logo {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
         
-        .canva-logo img {
+        .canva-logo img, .flujotv-logo img {
             max-width: 120px;
             height: auto;
         }
@@ -323,6 +348,58 @@
             border-top: 1px solid #eee;
             color: #7f8c8d;
             font-size: 14px;
+        }
+        
+        /* Estilos para la ventana de previsualización de captura */
+        .screenshot-preview {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .screenshot-preview img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .preview-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .preview-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .download-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .close-preview-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .preview-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         @media (max-width: 767px) {
@@ -349,6 +426,11 @@
             
             .subtitle {
                 font-size: 16px;
+            }
+            
+            .preview-buttons {
+                flex-direction: column;
+                width: 80%;
             }
         }
     </style>
@@ -402,6 +484,11 @@
                 <span class="icon">💰</span>
                 PAYALL
             </a>
+            
+            <button class="btn flujotv-btn" id="flujotvBtn">
+                <span class="icon">📺</span>
+                DESCARGA FLUJO TV
+            </button>
         </div>
         
         <div class="info-box">
@@ -464,16 +551,67 @@
         </div>
     </div>
 
+    <!-- Modal para Flujo TV -->
+    <div class="modal" id="flujotvModal">
+        <div class="modal-content" id="flujotvContent">
+            <button class="close-btn" id="closeFlujotvModal">&times;</button>
+            
+            <div class="flujotv-logo">
+                <img src="https://sumerlabs.com/default/image-tool-lambda?new-width=700&new-height=700&new-quality=80&url-image=https%3A%2F%2Fsumerlabs.com%2Fprod%2Fcatalogue%2F5ee04bccdffd3548621391489053afdda7430151%2Fimage1dw50misqcdhmaekw5mv.webp" alt="Logo de Flujo TV">
+            </div>
+            
+            <h2 class="modal-title">DESCARGA FLUJO TV</h2>
+            
+            <div class="download-info">
+                <div class="access-data">
+                    <p>Asesor de servicios streaming B2B:</p>
+                    <p><strong>🔥 LINKS FLUJO TV 🔥</strong></p>
+                    <p>➡️‎‎⚙️NUEVA VERSION 7.10.1</p>
+                    <a href="https://bitcc.net/flujo-tv-v7101" class="download-link" target="_blank">
+                        https://bitcc.net/flujo-tv-v7101
+                    </a>
+                    <p>‎📱Cell</p>
+                    <a href="https://bitcc.net/flujo-mobile-v7101" class="download-link" target="_blank">
+                        https://bitcc.net/flujo-mobile-v7101
+                    </a>
+                    <p>Downloader: <strong>5868166</strong></p>
+                </div>
+            </div>
+            
+            <button class="screenshot-btn" id="screenshotFlujotvBtn">CAPTURA DE PANTALLA</button>
+            <button class="copy-btn" id="copyFlujotvBtn">COPIAR INFORMACIÓN</button>
+        </div>
+    </div>
+
+    <!-- Ventana de previsualización de captura -->
+    <div class="screenshot-preview" id="screenshotPreview">
+        <img id="previewImage" src="" alt="Captura de pantalla">
+        <div class="preview-buttons">
+            <button class="preview-btn download-btn" id="downloadScreenshotBtn">DESCARGAR CAPTURA</button>
+            <button class="preview-btn close-preview-btn" id="closePreviewBtn">CERRAR</button>
+        </div>
+    </div>
+
     <script>
         // Elementos del DOM
         const panaxBtn = document.getElementById('panaxBtn');
         const canvaBtn = document.getElementById('canvaBtn');
+        const flujotvBtn = document.getElementById('flujotvBtn');
         const panaxModal = document.getElementById('panaxModal');
         const canvaModal = document.getElementById('canvaModal');
+        const flujotvModal = document.getElementById('flujotvModal');
         const closePanaxModal = document.getElementById('closePanaxModal');
         const closeCanvaModal = document.getElementById('closeCanvaModal');
+        const closeFlujotvModal = document.getElementById('closeFlujotvModal');
         const copyPanaxBtn = document.getElementById('copyPanaxBtn');
         const copyCanvaBtn = document.getElementById('copyCanvaBtn');
+        const copyFlujotvBtn = document.getElementById('copyFlujotvBtn');
+        const screenshotFlujotvBtn = document.getElementById('screenshotFlujotvBtn');
+        const screenshotPreview = document.getElementById('screenshotPreview');
+        const previewImage = document.getElementById('previewImage');
+        const downloadScreenshotBtn = document.getElementById('downloadScreenshotBtn');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
+        const flujotvContent = document.getElementById('flujotvContent');
         
         // Abrir modal al hacer clic en el botón Panax
         panaxBtn.addEventListener('click', function() {
@@ -485,6 +623,11 @@
             canvaModal.style.display = 'flex';
         });
         
+        // Abrir modal al hacer clic en el botón Flujo TV
+        flujotvBtn.addEventListener('click', function() {
+            flujotvModal.style.display = 'flex';
+        });
+        
         // Cerrar modales al hacer clic en la X
         closePanaxModal.addEventListener('click', function() {
             panaxModal.style.display = 'none';
@@ -494,6 +637,10 @@
             canvaModal.style.display = 'none';
         });
         
+        closeFlujotvModal.addEventListener('click', function() {
+            flujotvModal.style.display = 'none';
+        });
+        
         // Cerrar modales al hacer clic fuera del contenido
         window.addEventListener('click', function(event) {
             if (event.target === panaxModal) {
@@ -501,6 +648,9 @@
             }
             if (event.target === canvaModal) {
                 canvaModal.style.display = 'none';
+            }
+            if (event.target === flujotvModal) {
+                flujotvModal.style.display = 'none';
             }
         });
         
@@ -558,14 +708,99 @@ Clave: Vendeygana*`;
                 });
         });
         
+        // Copiar información de Flujo TV al portapapeles
+        copyFlujotvBtn.addEventListener('click', function() {
+            const infoToCopy = `Asesor de servicios streaming B2B:
+🔥 LINKS FLUJO TV 🔥 
+➡️‎‎⚙️NUEVA VERSION 7.10.1
+‎https://bitcc.net/flujo-tv-v7101
+‎📱Cell
+‎https://bitcc.net/flujo-mobile-v7101
+Downloader: 5868166`;
+            
+            navigator.clipboard.writeText(infoToCopy)
+                .then(() => {
+                    // Cambiar texto del botón temporalmente
+                    const originalText = copyFlujotvBtn.textContent;
+                    copyFlujotvBtn.textContent = '¡INFORMACIÓN COPIADA!';
+                    copyFlujotvBtn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        copyFlujotvBtn.textContent = originalText;
+                        copyFlujotvBtn.classList.remove('copied');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Error al copiar: ', err);
+                    alert('Error al copiar la información. Intenta manualmente.');
+                });
+        });
+        
+        // Captura de pantalla del modal Flujo TV
+        screenshotFlujotvBtn.addEventListener('click', function() {
+            // Mostrar indicador de carga
+            const originalText = screenshotFlujotvBtn.textContent;
+            screenshotFlujotvBtn.textContent = 'CAPTURANDO...';
+            screenshotFlujotvBtn.disabled = true;
+            
+            // Usar html2canvas para capturar el contenido del modal
+            html2canvas(flujotvContent, {
+                scale: 2, // Aumentar la calidad de la imagen
+                useCORS: true, // Permitir imágenes de otros dominios
+                logging: false // Desactivar logs
+            }).then(canvas => {
+                // Convertir el canvas a imagen
+                const imageData = canvas.toDataURL('image/png');
+                
+                // Mostrar la previsualización
+                previewImage.src = imageData;
+                screenshotPreview.style.display = 'flex';
+                
+                // Restaurar el botón
+                screenshotFlujotvBtn.textContent = originalText;
+                screenshotFlujotvBtn.disabled = false;
+            }).catch(err => {
+                console.error('Error al capturar pantalla: ', err);
+                alert('Error al capturar la pantalla. Intenta nuevamente.');
+                
+                // Restaurar el botón
+                screenshotFlujotvBtn.textContent = originalText;
+                screenshotFlujotvBtn.disabled = false;
+            });
+        });
+        
+        // Descargar la captura de pantalla
+        downloadScreenshotBtn.addEventListener('click', function() {
+            const imageData = previewImage.src;
+            const link = document.createElement('a');
+            link.href = imageData;
+            link.download = 'FlujoTV_Captura.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+        
+        // Cerrar la previsualización
+        closePreviewBtn.addEventListener('click', function() {
+            screenshotPreview.style.display = 'none';
+        });
+        
+        // Cerrar previsualización al hacer clic fuera
+        screenshotPreview.addEventListener('click', function(event) {
+            if (event.target === screenshotPreview) {
+                screenshotPreview.style.display = 'none';
+            }
+        });
+        
         // Cerrar modales con tecla Escape
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 panaxModal.style.display = 'none';
                 canvaModal.style.display = 'none';
+                flujotvModal.style.display = 'none';
+                screenshotPreview.style.display = 'none';
             }
         });
     </script>
 </body>
 </html>
-

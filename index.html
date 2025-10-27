@@ -175,6 +175,17 @@
             box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
         }
         
+        .insufficient-balance-btn {
+            background-color: #FFC107;
+            color: #333;
+        }
+        
+        .insufficient-balance-btn:hover {
+            background-color: #E6A800;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+        
         .btn:active {
             transform: translateY(1px);
         }
@@ -402,6 +413,36 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
+        /* Estilos para el indicador de carga */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         @media (max-width: 767px) {
             .container {
                 padding: 25px;
@@ -489,6 +530,12 @@
                 <span class="icon">📺</span>
                 DESCARGA FLUJO TV
             </button>
+            
+            <!-- Nuevo botón agregado -->
+            <a href="https://vendeygana2.github.io/COMPRADISNEY/" class="btn insufficient-balance-btn" target="_blank">
+                <span class="icon">⚠️</span>
+                MENSAJE SALDO INSUFICIENTE
+            </a>
         </div>
         
         <div class="info-box">
@@ -592,6 +639,12 @@
         </div>
     </div>
 
+    <!-- Indicador de carga -->
+    <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>Capturando pantalla...</p>
+    </div>
+
     <script>
         // Elementos del DOM
         const panaxBtn = document.getElementById('panaxBtn');
@@ -612,6 +665,7 @@
         const downloadScreenshotBtn = document.getElementById('downloadScreenshotBtn');
         const closePreviewBtn = document.getElementById('closePreviewBtn');
         const flujotvContent = document.getElementById('flujotvContent');
+        const loadingIndicator = document.getElementById('loadingIndicator');
         
         // Abrir modal al hacer clic en el botón Panax
         panaxBtn.addEventListener('click', function() {
@@ -665,22 +719,7 @@ https://telesatstreaming.com/Pana/PANAXTREAMING.apk
 Descarga Downloader
 8407223`;
             
-            navigator.clipboard.writeText(infoToCopy)
-                .then(() => {
-                    // Cambiar texto del botón temporalmente
-                    const originalText = copyPanaxBtn.textContent;
-                    copyPanaxBtn.textContent = '¡INFORMACIÓN COPIADA!';
-                    copyPanaxBtn.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        copyPanaxBtn.textContent = originalText;
-                        copyPanaxBtn.classList.remove('copied');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Error al copiar: ', err);
-                    alert('Error al copiar la información. Intenta manualmente.');
-                });
+            copyToClipboard(infoToCopy, copyPanaxBtn);
         });
         
         // Copiar información de Canva al portapapeles
@@ -690,22 +729,7 @@ Descarga Downloader
 Correo: vgpanelcanva@gmail.com
 Clave: Vendeygana*`;
             
-            navigator.clipboard.writeText(infoToCopy)
-                .then(() => {
-                    // Cambiar texto del botón temporalmente
-                    const originalText = copyCanvaBtn.textContent;
-                    copyCanvaBtn.textContent = '¡INFORMACIÓN COPIADA!';
-                    copyCanvaBtn.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        copyCanvaBtn.textContent = originalText;
-                        copyCanvaBtn.classList.remove('copied');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Error al copiar: ', err);
-                    alert('Error al copiar la información. Intenta manualmente.');
-                });
+            copyToClipboard(infoToCopy, copyCanvaBtn);
         });
         
         // Copiar información de Flujo TV al portapapeles
@@ -718,30 +742,13 @@ Clave: Vendeygana*`;
 ‎https://bitcc.net/flujo-mobile-v7101
 Downloader: 5868166`;
             
-            navigator.clipboard.writeText(infoToCopy)
-                .then(() => {
-                    // Cambiar texto del botón temporalmente
-                    const originalText = copyFlujotvBtn.textContent;
-                    copyFlujotvBtn.textContent = '¡INFORMACIÓN COPIADA!';
-                    copyFlujotvBtn.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        copyFlujotvBtn.textContent = originalText;
-                        copyFlujotvBtn.classList.remove('copied');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Error al copiar: ', err);
-                    alert('Error al copiar la información. Intenta manualmente.');
-                });
+            copyToClipboard(infoToCopy, copyFlujotvBtn);
         });
         
         // Captura de pantalla del modal Flujo TV
         screenshotFlujotvBtn.addEventListener('click', function() {
             // Mostrar indicador de carga
-            const originalText = screenshotFlujotvBtn.textContent;
-            screenshotFlujotvBtn.textContent = 'CAPTURANDO...';
-            screenshotFlujotvBtn.disabled = true;
+            loadingIndicator.style.display = 'flex';
             
             // Usar html2canvas para capturar el contenido del modal
             html2canvas(flujotvContent, {
@@ -756,16 +763,14 @@ Downloader: 5868166`;
                 previewImage.src = imageData;
                 screenshotPreview.style.display = 'flex';
                 
-                // Restaurar el botón
-                screenshotFlujotvBtn.textContent = originalText;
-                screenshotFlujotvBtn.disabled = false;
+                // Ocultar indicador de carga
+                loadingIndicator.style.display = 'none';
             }).catch(err => {
                 console.error('Error al capturar pantalla: ', err);
                 alert('Error al capturar la pantalla. Intenta nuevamente.');
                 
-                // Restaurar el botón
-                screenshotFlujotvBtn.textContent = originalText;
-                screenshotFlujotvBtn.disabled = false;
+                // Ocultar indicador de carga
+                loadingIndicator.style.display = 'none';
             });
         });
         
@@ -801,6 +806,26 @@ Downloader: 5868166`;
                 screenshotPreview.style.display = 'none';
             }
         });
+        
+        // Función auxiliar para copiar al portapapeles
+        function copyToClipboard(text, buttonElement) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    // Cambiar texto del botón temporalmente
+                    const originalText = buttonElement.textContent;
+                    buttonElement.textContent = '¡INFORMACIÓN COPIADA!';
+                    buttonElement.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        buttonElement.textContent = originalText;
+                        buttonElement.classList.remove('copied');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Error al copiar: ', err);
+                    alert('Error al copiar la información. Intenta manualmente.');
+                });
+        }
     </script>
 </body>
 </html>

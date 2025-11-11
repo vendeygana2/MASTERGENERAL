@@ -453,6 +453,65 @@
             to { transform: rotate(360deg); }
         }
         
+        /* Estilos mejorados para el modal de Flujo TV */
+        .flujotv-info {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        
+        .flujotv-title {
+            color: #FF5722;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .flujotv-version {
+            background-color: #FF5722;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .flujotv-link {
+            display: block;
+            color: #0088cc;
+            text-decoration: none;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            transition: all 0.3s;
+        }
+        
+        .flujotv-link:hover {
+            background-color: #e9ecef;
+            text-decoration: underline;
+        }
+        
+        .flujotv-downloader {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .phone-download-label {
+            margin: 15px 0;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
         @media (max-width: 767px) {
             .container {
                 padding: 25px;
@@ -625,19 +684,22 @@
             
             <h2 class="modal-title">DESCARGA FLUJO TV</h2>
             
-            <div class="download-info">
-                <div class="access-data">
-                    <p><strong>DPTO. STREAMING VENDE Y GANA</strong></p>
-                    <p><strong>🔥 LINKS FLUJO TV 🔥</strong></p>
-                    <p>➡️‎‎⚙️NUEVA VERSION 7.10.1</p>
-                    <a href="https://bitcc.net/flujo-tv-v7101" class="download-link" target="_blank">
-                        https://bitcc.net/flujo-tv-v7101
-                    </a>
-                    <p>‎📱Cell</p>
-                    <a href="https://bitcc.net/flujo-mobile-v7101" class="download-link" target="_blank">
-                        https://bitcc.net/flujo-mobile-v7101
-                    </a>
-                    <p>Downloader: <strong>5868166</strong></p>
+            <div class="flujotv-info">
+                <div class="flujotv-title">🔥 LINKS FLUJO TV 🔥</div>
+                <div class="flujotv-version">NUEVA VERSION 7.10.1</div>
+                
+                <a href="https://bitcc.net/flujo-tv-v7101" class="flujotv-link" target="_blank">
+                    https://bitcc.net/flujo-tv-v7101
+                </a>
+                
+                <div class="phone-download-label">📱 Link para descarga en teléfono</div>
+                
+                <a href="https://bitcc.net/flujo-mobile-v7101" class="flujotv-link" target="_blank">
+                    https://bitcc.net/flujo-mobile-v7101
+                </a>
+                
+                <div class="flujotv-downloader">
+                    Downloader: <strong>5868166</strong>
                 </div>
             </div>
             
@@ -750,11 +812,10 @@ Clave: Vendeygana*`;
         
         // Copiar información de Flujo TV al portapapeles
         copyFlujotvBtn.addEventListener('click', function() {
-            const infoToCopy = `DPTO. STREAMING VENDE Y GANA
-🔥 LINKS FLUJO TV 🔥 
+            const infoToCopy = `🔥 LINKS FLUJO TV 🔥 
 ➡️‎‎⚙️NUEVA VERSION 7.10.1
 ‎https://bitcc.net/flujo-tv-v7101
-‎📱Cell
+📱 Link para descarga en teléfono
 ‎https://bitcc.net/flujo-mobile-v7101
 Downloader: 5868166`;
             
@@ -844,5 +905,4 @@ Downloader: 5868166`;
         }
     </script>
 </body>
-</html>/html>
-
+</html>
